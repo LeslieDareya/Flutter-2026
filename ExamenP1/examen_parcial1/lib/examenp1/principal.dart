@@ -27,7 +27,7 @@ class Imagenes extends State {
       
         
       // Cuerpo organizado de forma vertical
-      body: Column(
+      body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(

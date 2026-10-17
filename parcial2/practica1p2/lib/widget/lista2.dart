@@ -14,35 +14,39 @@ class Item {
 }
 
 class Clase2 extends State<Lista2> {
+  // Controladores de texto para capturar lo que el usuario escribe en los inputs de producto y precio
   TextEditingController producto = TextEditingController();
   TextEditingController precio = TextEditingController();
 
+  // Lista inicial que almacena objetos de tipo Item con los productos precargados
   final List<Item> items = [
     Item('Jabon', '\$120.00'),
     Item('Agua', '\$10.00'),
   ];
+  
+  // Función para mostrar una ventana emergente (AlertDialog personalizado) al hacer clic en un elemento de la lista
   void _MostrarDatos(String nombre, String precioindex){
     print(nombre +precioindex);
     showDialog(
     context: context,
     builder: (BuildContext context){
       return Dialog(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent, // Fondo transparente para dar estilo personalizado al contenedor
         child: Container(
           padding: EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(15), // Bordes redondeados para el diálogo
           ),
          child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min, // Se ajusta al tamaño mínimo del contenido interno
             children: [
               Container(
                 width: 100,
                 height: 100,
                 decoration: BoxDecoration(
                   color: Colors.grey,
-                  shape: BoxShape.circle,
+                  shape: BoxShape.circle, // Contenedor circular gris
                 ), 
                 child: Icon(
                   Icons.shopping_bag,
@@ -51,14 +55,14 @@ class Clase2 extends State<Lista2> {
                 ), // Icon
               ), 
               SizedBox(height: 10),
-              Text(nombre,
+              Text(nombre, // Muestra el título del producto seleccionado
                style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 24,
                ),
               ),
               SizedBox(height: 10),
-              Text(precioindex,
+              Text(precioindex, // Muestra el precio del producto seleccionado
                style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 24,
@@ -70,7 +74,7 @@ class Clase2 extends State<Lista2> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: (){
-                      Navigator.pop(context);
+                      Navigator.pop(context); // Cierra la ventana emergente actual
                     },
                     child: Text('Cerrar',
                      style: TextStyle(
@@ -90,21 +94,22 @@ class Clase2 extends State<Lista2> {
   );
   }
 
-
+  // Función para agregar un nuevo elemento a la lista a partir de los campos de texto
   void _agregar() {
     String p = producto.text;
     String pr = precio.text;
 
-      if(p.isNotEmpty && pr.isNotEmpty){
+      if(p.isNotEmpty && pr.isNotEmpty){ // Valida que los campos no estén vacíos antes de insertar
         setState((){
           items.insert(
-            0, Item(p, '\$$pr'),
+            0, Item(p, '\$$pr'), // Inserta el nuevo item al principio de la lista con formato de precio
           );
         });
-        producto.clear();
-        precio.clear();
+        producto.clear(); // Limpia el campo de texto del producto
+        precio.clear(); // Limpia el campo de texto del precio
 
       }else{
+        // Muestra un mensaje flotante (SnackBar) si algún campo está vacío
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Producto agregado'),
@@ -113,8 +118,10 @@ class Clase2 extends State<Lista2> {
         );
 }   
   }
+
   @override
   Widget build(BuildContext context) {
+    // Retorna la estructura principal de la pantalla mediante un Scaffold
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigoAccent,
@@ -122,7 +129,7 @@ class Clase2 extends State<Lista2> {
           'Practica de listas',
           style: TextStyle(color: Colors.white),
         ),
-       actions: [ ///elementos que puedo agregar en el appbar
+       actions: [ /// Elementos adicionales ubicados en la parte derecha del AppBar
         Padding(
           padding:EdgeInsets.only(right: 18),
           child: Center(
@@ -136,7 +143,7 @@ class Clase2 extends State<Lista2> {
               borderRadius: BorderRadius.circular(5),
             ), // BoxDecoration
             child: Text(
-              '${items.length} productos',
+              '${items.length} productos', // Muestra el contador dinámico del total de productos en tiempo real
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ), // TextStyle
@@ -157,14 +164,14 @@ class Clase2 extends State<Lista2> {
               Container(
                 width: double.infinity,
                 child: Card(
-                  elevation: 8,
+                  elevation: 8, // Sombra de la tarjeta contenedora del formulario
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadiusGeometry.circular(8),
                   ),
                   child: Column(
                     children: [
                       TextField(
-                        controller: producto,
+                        controller: producto, // Controlador para el input del nombre del producto
                         decoration: InputDecoration(
                           label: Text('Escribe el producto'),
                         ),
@@ -178,7 +185,7 @@ class Clase2 extends State<Lista2> {
                       Container(
                         width: double.infinity,
                         child: ElevatedButton.icon(
-                          onPressed: _agregar,
+                          onPressed: _agregar, // Llama a la función _agregar al presionar el botón
                           label: Text('Agregar'),
                         ),
                       ),
@@ -191,15 +198,15 @@ class Clase2 extends State<Lista2> {
                 child: Container(
                   width: double.infinity,
                   child: ListView.builder(
-                    itemCount: items.length,
+                    itemCount: items.length, // Define la longitud total de la lista basada en los elementos actuales
                     itemBuilder: (context, index) => Card(
                       child: ListTile(
-                        leading: Icon(Icons.add_alert),
-                        title: Text(items[index].titulo),
-                        subtitle: Text(items[index].subtitulo),
-                        trailing: Icon(Icons.airline_seat_flat_angled_outlined),
-                        onTap: (){//detecta los clics dentro de la lista
-                          _MostrarDatos(items[index].titulo, items[index].subtitulo);
+                        leading: Icon(Icons.add_alert), // Icono decorativo a la izquierda
+                        title: Text(items[index].titulo), // Muestra el título del ítem actual
+                        subtitle: Text(items[index].subtitulo), // Muestra el subtítulo (precio) del ítem actual
+                        trailing: Icon(Icons.airline_seat_flat_angled_outlined), // Icono decorativo a la derecha
+                        onTap: (){// Detecta los clics dentro de cada elemento de la lista
+                          _MostrarDatos(items[index].titulo, items[index].subtitulo); // Llama al diálogo con los datos del elemento seleccionado
 
                         } 
                       ),
@@ -213,4 +220,4 @@ class Clase2 extends State<Lista2> {
       ),
     );
   }
-} 
+}

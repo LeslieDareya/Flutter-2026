@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:practica1p2/preexamenp2/filtro.dart';
+import 'package:practica1p2/preexamenp2/pares.dart';
 
 import 'package:practica1p2/widget/lista1.dart';
 import 'package:practica1p2/widget/lista2.dart';
@@ -14,7 +16,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Lista2(),
+      debugShowCheckedModeBanner: false,
+      home: Pares(
+      ),
     ); // MaterialApp
   }
 }
